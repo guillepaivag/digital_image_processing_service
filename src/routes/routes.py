@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from ..controllers.descardar import download_images
 
 router = APIRouter(
     prefix="/api",
@@ -12,6 +13,7 @@ async def generarImagenAC():
     # llamar a middlewares
 
     # llamar a controller
+    download_images('1')
 
     return {
         "estado": 200,
