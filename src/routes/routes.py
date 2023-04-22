@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from ..controllers.descardar import download_images
+#from ..controllers.descardar import download_images
+from ..controllers.descargar import download_images
 
 router = APIRouter(
     prefix="/api",
@@ -7,14 +8,22 @@ router = APIRouter(
 )
 
 
-@router.post("/generar-imagen-alta-calidad")
+@router.get("/generar-imagen-alta-calidad")
 async def generarImagenAC():
 
     # llamar a middlewares
+    try:
+        # llamar a controller
+        await download_images()
 
-    # llamar a controller
-    download_images('1')
-
+    except Exception as e:
+        print("Un error a ocurrido",e)
+        return {
+            "estado": 500,
+            "mensajeCliente": "error_servidor",
+            "resultado": "error servidor"
+        }
+        
     return {
         "estado": 200,
         "mensajeCliente": "exito",
