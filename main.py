@@ -1,10 +1,5 @@
 from fastapi import FastAPI
 from src.routes import routes
-import firebase_admin
-from firebase_admin import credentials
-
-cred = credentials.Certificate("service_account_dev.json")
-firebase_admin.initialize_app(cred)
 
 app = FastAPI()
 
@@ -12,4 +7,7 @@ app.include_router(routes.router)
 
 @app.get("/")
 async def read_root():
-    return "Buenos dias"
+    return {"message": "Hello from FastAPI1"}
+
+def main(request):
+    return {"message": "Hello from FastAPI2"}

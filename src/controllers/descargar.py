@@ -1,5 +1,6 @@
 import os
 import random
+import tempfile
 from fastapi import FastAPI
 from google.cloud import storage
 
@@ -13,7 +14,8 @@ client = storage.Client()
 bucket_name = "vilab-dev.appspot.com"
 
 # Define the directory where to save the images
-download_dir = "/tmp/images"
+tmpdir = tempfile.gettempdir()
+download_dir = f"{tmpdir}"
 
 async def download_images():
   # Get the bucket
@@ -29,13 +31,12 @@ async def download_images():
   for blob in blobs:
     # Get the file name
     filename = blob.name.split('/')[-1]
-    print("filename",filename.split('/')[-1])
 
     if not filename:
       continue
 
     # Create the full file path
-    filepath = f"temp/{filename}"
+    filepath = f"{download_dir}/{filename}"
 
     # Download the blob to the file
     blob.download_to_filename(filepath)
